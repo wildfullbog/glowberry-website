@@ -27,7 +27,7 @@
             <li><a href="#economy"><i class="fas fa-gavel"></i> Wirtschaft</a></li>
             <li><a href="#features"><i class="fas fa-gamepad"></i> Gameplay</a></li>
             <li><a href="#regeln"><i class="fas fa-balance-scale"></i> Richtlinien</a></li>
-            <li><a href="admin.html" target="_blank" class="admin-btn"><i class="fas fa-lock"></i> Admin Panel</a></li>
+            <li><a href="#" onclick="openAdminModal(); return false;" class="admin-btn"><i class="fas fa-lock"></i> Admin Panel</a></li>
         </ul>
         <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </nav>
@@ -109,11 +109,10 @@
         </div>
     </section>
 
-    <!-- Richtlinien (Werden jetzt live aus dem Speicher geladen) -->
+    <!-- Richtlinien -->
     <section id="regeln" class="section bg-dark-eval">
         <h2 class="section-title">📜 Verbotenes Verhalten (Prohibited Conduct)</h2>
         <div class="law-list" id="liveRulesContainer">
-            <!-- Standard-Regeln als Fallback -->
             <div class="law-item">
                 <div class="law-num">1.1</div>
                 <div class="law-text"><strong>Hacked Clients & Exploits:</strong> Jede Nutzung von Cheat-Clients, X-Ray oder unfairen Modifikationen führt zum permanenten Bann.</div>
@@ -129,79 +128,55 @@
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 GlowBerrySMP. Wir stehen in keinerlei Verbindung mit Mojang AB. | <a href="#">Datenschutz</a></p>
-    </footer>
+    <!-- 🔐 INTEGRIERTES ADMIN MODAL (Vollkommen unsichtbar für Spieler) -->
+    <div id="adminModal" class="modal-overlay">
+        <!-- Login Formular -->
+        <div id="modalLoginBox" class="login-box glow-card">
+            <div class="modal-close" onclick="closeAdminModal()">&times;</div>
+            <h2><i class="fas fa-lock"></i> Admin Login</h2>
+            <div class="input-group">
+                <label>Admin-Passwort</label>
+                <input type="password" id="adminPass" placeholder="••••••••">
+            </div>
+            <button class="btn" style="width:100%;" onclick="checkLogin()">Einloggen</button>
+            <p id="login-error" class="error-text"></p>
+        </div>
 
-    <script>
-        let currentJavaIP = "://minefort.com";
-        let currentBedrockIP = "://minefort.com:19132";
-        let currentBedrockPort = "19132";
-
-        window.addEventListener('DOMContentLoaded', () => {
-            // 1. Banner laden
-            const savedBanner = localStorage.getItem('globalAnnouncement');
-            if (savedBanner) { document.getElementById('announcementText').innerHTML = savedBanner; }
-
-            // 2. Java & Bedrock IPs laden
-            const savedJavaIP = localStorage.getItem('serverJavaIP');
-            if (savedJavaIP) {
-                currentJavaIP = savedJavaIP;
-                document.getElementById('display-ip-java').innerHTML = `<i class="fas fa-desktop"></i> ${savedJavaIP}`;
-            }
-            const savedBedrockIP = localStorage.getItem('serverBedrockIP');
-            const savedBedrockPort = localStorage.getItem('serverBedrockPort');
-            if (savedBedrockPort) { currentBedrockPort = savedBedrockPort; }
-            if (savedBedrockIP) {
-                currentBedrockIP = savedBedrockIP + ":" + currentBedrockPort;
-                document.getElementById('display-ip-bedrock').innerHTML = `<i class="fas fa-mobile-alt"></i> Port: ${currentBedrockPort}`;
-            }
-
-            // 3. REGELLISTE DYNAMISCH LADEN
-            const savedRules = localStorage.getItem('serverRulesText');
-            if (savedRules) {
-                const rulesArray = JSON.parse(savedRules);
-                const container = document.getElementById('liveRulesContainer');
-                container.innerHTML = ""; // Leeren
+        <!-- Dashboard Steuerung -->
+        <div id="modalDashboardBox" class="modal-dashboard glow-card hidden">
+            <div class="modal-close" onclick="closeAdminModal()">&times;</div>
+            <h2><i class="fas fa-cogs"></i> GlowBerrySMP Live Steuerung</h2>
+            
+            <div class="admin-grid">
+                <!-- Links: Navigation -->
+                <div class="admin-panel-menu">
+                    <button class="admin-menu-btn active" id="btn-tab1" onclick="switchAdminTab('panel-banner')">Top-Banner</button>
+                    <button class="admin-menu-btn" id="btn-tab2" onclick="switchAdminTab('panel-regeln')">Richtlinien</button>
+                    <button class="admin-menu-btn" id="btn-tab3" onclick="switchAdminTab('panel-ips')">Server-IPs</button>
+                    <button class="admin-menu-btn" style="background:#cc002c; margin-top:20px;" onclick="adminLogout()">Abmelden</button>
+                </div>
                 
-                rulesArray.forEach((rule, index) => {
-                    if(rule.trim() !== "") {
-                        // Teilt Nummerierung und Text am "|" Zeichen, falls vorhanden
-                        let num = `1.${index + 1}`;
-                        let text = rule;
-                        if(rule.includes('|')) {
-                            const parts = rule.split('|');
-                            num = parts[0].trim();
-                            text = parts[1].trim();
-                        }
-                        
-                        container.innerHTML += `
-                            <div class="law-item">
-                                <div class="law-num">${num}</div>
-                                <div class="law-text">${text}</div>
-                            </div>`;
-                    }
-                });
-            }
-        });
+                <!-- Rechts: Inhalte -->
+                <div class="admin-panel-content">
+                    <!-- Banner -->
+                    <div id="panel-banner" class="panel-tab">
+                        <h3>📢 Ankündigungsbanner ändern</h3>
+                        <input type="text" class="admin-input" id="bannerTextInput" style="width:100%; margin-top:10px;">
+                        <button class="btn" onclick="saveBanner()" style="margin-top:10px;"><i class="fas fa-save"></i> Banner Speichern</button>
+                    </div>
 
-        function copyIP(type) {
-            let textToCopy = type === 'java' ? currentJavaIP : currentBedrockIP;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const eventTarget = event.currentTarget;
-                const badge = eventTarget.querySelector('.copy-badge');
-                badge.innerHTML = '<i class="fas fa-check"></i> Kopiert!';
-                badge.style.background = '#28a745';
-                setTimeout(() => {
-                    badge.innerHTML = '<i class="fas fa-copy"></i> Kopieren';
-                    badge.style.background = 'var(--primary-color)';
-                }, 2000);
-            });
-        }
+                    <!-- Regeln -->
+                    <div id="panel-regeln" class="panel-tab hidden">
+                        <h3>📜 Richtlinien ändern (Jede Regel in eine neue Zeile, Format: Nummer | Text)</h3>
+                        <textarea class="admin-input" id="rulesTextArea" rows="8" style="width:100%; margin-top:10px; font-family:monospace; resize:vertical;"></textarea>
+                        <button class="btn" onclick="saveRules()" style="margin-top:10px;"><i class="fas fa-save"></i> Richtlinien Speichern</button>
+                    </div>
 
-        function toggleMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+                    <!-- IPs -->
+                    <div id="panel-ips" class="panel-tab hidden">
+                        <h3>⚙️ Server-Verbindungen ändern</h3>
+                        <label style="display:block; margin:10px 0 5px; color:#aaa;">Java IP:</label>
+                        <input type="text" class="admin-input" id="javaIpInput" style="width:100%;">
+                        <label style="display:block; margin:10px 0 5px; color:#aaa;">Bedrock IP (ohne Port):</label>
+                        <input type="text" class="admin-input" id="bedrockIpInput" style="width:100%;">
+                        <label style="display:block; margin:10px 0 5px; color:#aaa;">Bedrock Port:</label>
