@@ -8,100 +8,91 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cloudflare.com">
 </head>
-<body class="admin-body">
+<body class="admin-body" style="display: flex; background: #050405; min-height: 100vh;">
 
     <!-- 🔑 LOGIN SCREEN -->
-    <div id="login-overlay" class="login-wrapper">
-        <div class="login-box glow-card">
-            <h2><i class="fas fa-lock-open"></i> GlowBerrySMP Admin Login</h2>
-            <div class="input-group">
-                <label>Admin-Passwort</label>
-                <input type="password" id="adminPass" placeholder="••••••••">
+    <div id="login-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050405; display: flex; align-items: center; justify-content: center; z-index: 1000;">
+        <div class="glow-card" style="padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; text-align: center;">
+            <h2><i class="fas fa-lock"></i> Admin Login</h2>
+            <div class="input-group" style="text-align: left; margin: 20px 0;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-muted);">Admin-Passwort</label>
+                <input type="password" id="adminPass" class="admin-input" placeholder="••••••••">
             </div>
-            <button class="btn btn-block" onclick="checkLogin()">Einloggen</button>
-            <p id="login-error" class="error-text"></p>
+            <button class="btn" style="width: 100%;" onclick="checkLogin()">Einloggen</button>
+            <p id="login-error" class="error-text" style="color: var(--primary-color); margin-top: 15px; font-weight: bold;"></p>
         </div>
     </div>
 
     <!-- ⚙️ DASHBOARD CONTAINER -->
-    <div id="admin-dashboard" class="admin-container hidden">
-        <aside class="admin-sidebar">
-            <div class="sidebar-title">GlowBerrySMP<span>Admin</span></div>
-            <ul class="sidebar-menu">
-                <li class="active" onclick="switchTab('announcement-tab')"><i class="fas fa-bullhorn"></i> Top-Banner</li>
-                <li onclick="switchTab('regeln-tab')"><i class="fas fa-scroll"></i> Richtlinien</li>
-                <li onclick="switchTab('settings-tab')"><i class="fas fa-cogs"></i> System-Zustand</li>
+    <div id="admin-dashboard" class="hidden" style="display: flex; width: 100%; min-height: 100vh;">
+        <!-- Sidebar -->
+        <aside style="width: 260px; background: #0e0a0b; padding: 30px 20px; border-right: 1px solid #191213; display: flex; flex-direction: column;">
+            <div class="sidebar-title" style="font-size: 20px; font-weight: bold; margin-bottom: 40px; text-align: center;">GlowBerrySMP<span style="color: var(--primary-color);">Admin</span></div>
+            <ul style="list-style: none; flex-grow: 1;">
+                <li class="admin-menu-li active" onclick="switchTab('announcement-tab')"><i class="fas fa-bullhorn"></i> Top-Banner</li>
+                <li class="admin-menu-li" onclick="switchTab('regeln-tab')"><i class="fas fa-scroll"></i> Richtlinien</li>
+                <li class="admin-menu-li" onclick="switchTab('settings-tab')"><i class="fas fa-cogs"></i> System-Zustand</li>
             </ul>
-            <button class="btn btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Abmelden</button>
+            <button class="btn" style="background: #cc002c; box-shadow: none;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Abmelden</button>
         </aside>
 
-        <main class="admin-content">
-            <!-- Top Banner Ankündigungen -->
-            <div id="announcement-tab" class="tab-content active-tab">
+        <!-- Main Content -->
+        <main style="flex-grow: 1; padding: 50px; background: #050405;">
+            <!-- Top Banner -->
+            <div id="announcement-tab" class="tab-content">
                 <h2>📢 Globales Ankündigungsbanner bearbeiten</h2>
-                <div class="form-container glow-card">
+                <div class="form-container glow-card" style="padding: 30px; margin-top: 20px; border-radius: 6px; max-width: 600px;">
                     <label style="color:var(--text-muted); display:block; margin-bottom:10px;">Banner-Text:</label>
-                    <input type="text" class="admin-input" id="bannerTextInput" value="🔥 <strong>UPDATE:</strong> Die brandneuen Server-Quests und Kisten sind ab sofort live!">
-                    <button class="btn" onclick="saveAnnouncement()"><i class="fas fa-save"></i> Änderungen保存</button>
-                    <p id="save-success" style="color:#28a745; margin-top:10px; font-weight:bold; display:none;"><i class="fas fa-check-circle"></i> Banner erfolgreich aktualisiert!</p>
+                    <input type="text" class="admin-input" id="bannerTextInput" value="">
+                    <button class="btn" onclick="saveAnnouncement()"><i class="fas fa-save"></i> Änderungen speichern</button>
                 </div>
             </div>
 
-            <!-- Richtlinien (HIER REPARIERTES SYSTEM) -->
+            <!-- Richtlinien -->
             <div id="regeln-tab" class="tab-content hidden">
                 <h2>📜 Server-Richtlinien (Prohibited Conduct)</h2>
-                <div class="form-container glow-card">
+                <div class="form-container glow-card" style="padding: 30px; margin-top: 20px; border-radius: 6px; max-width: 600px;">
                     <label style="color:var(--text-muted); display:block; margin-bottom:10px;">Schreibe jede Regel in eine neue Zeile (Format: Nummer | Text):</label>
-                    <textarea class="admin-input" id="rulesTextArea" rows="10" placeholder="1.1 | Hacked Clients sind verboten&#10;1.2 | Bug Abuse ist untersagt"></textarea>
+                    <textarea class="admin-input" id="rulesTextArea" rows="10"></textarea>
                     <button class="btn" onclick="saveRulesSettings()"><i class="fas fa-save"></i> Richtlinien speichern</button>
-                    <p id="rules-save-success" style="color:#28a745; margin-top:10px; font-weight:bold; display:none;"><i class="fas fa-check-circle"></i> Richtlinien erfolgreich für Live-Seite gespeichert!</p>
                 </div>
             </div>
 
-            <!-- System-Zustand -->
+            <!-- System Zustand -->
             <div id="settings-tab" class="tab-content hidden">
                 <h2>⚙️ Netzwerk-IP & Server-Zustand verwalten</h2>
-                <div class="form-container glow-card">
+                <div class="form-container glow-card" style="padding: 30px; margin-top: 20px; border-radius: 6px; max-width: 600px;">
                     <div style="margin-bottom: 20px;">
                         <label style="color:var(--text-muted); display:block; margin-bottom:8px;">Java Server-IP:</label>
-                        <input type="text" id="javaIpInput" value="://minefort.com" class="admin-input">
+                        <input type="text" id="javaIpInput" class="admin-input">
                     </div>
                     <div style="margin-bottom: 20px;">
                         <label style="color:var(--text-muted); display:block; margin-bottom:8px;">Bedrock Server-IP (ohne Port):</label>
-                        <input type="text" id="bedrockIpInput" value="://minefort.com" class="admin-input">
+                        <input type="text" id="bedrockIpInput" class="admin-input">
                     </div>
                     <div style="margin-bottom: 20px;">
                         <label style="color:var(--text-muted); display:block; margin-bottom:8px;">Bedrock Port:</label>
-                        <input type="text" id="bedrockPortInput" value="19132" class="admin-input">
+                        <input type="text" id="bedrockPortInput" class="admin-input">
                     </div>
                     <button class="btn" onclick="saveIPSettings()"><i class="fas fa-save"></i> Server-IPs speichern</button>
-                    <p id="ip-save-success" style="color:#28a745; margin-top:10px; font-weight:bold; display:none;"><i class="fas fa-check-circle"></i> IPs erfolgreich gespeichert!</p>
                 </div>
             </div>
+            
+            <p id="save-success" style="color:#28a745; margin-top:20px; font-weight:bold; font-size:1.1rem; display:none; text-align:left;"><i class="fas fa-check-circle"></i> Erfolgreich auf der Live-Seite aktualisiert!</p>
         </main>
     </div>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const savedBanner = localStorage.getItem('globalAnnouncement');
-            if (savedBanner) { document.getElementById('bannerTextInput').value = savedBanner; }
+            document.getElementById('bannerTextInput').value = localStorage.getItem('globalAnnouncement') || "🔥 <strong>UPDATE:</strong> Die brandneuen Server-Quests und Kisten sind ab sofort live!";
+            document.getElementById('javaIpInput').value = localStorage.getItem('serverJavaIP') || "://minefort.com";
+            document.getElementById('bedrockIpInput').value = localStorage.getItem('serverBedrockIP') || "://minefort.com";
+            document.getElementById('bedrockPortInput').value = localStorage.getItem('serverBedrockPort') || "19132";
 
-            const savedJava = localStorage.getItem('serverJavaIP');
-            if (savedJava) { document.getElementById('javaIpInput').value = savedJava; }
-
-            const savedBedrock = localStorage.getItem('serverBedrockIP');
-            if (savedBedrock) { document.getElementById('bedrockIpInput').value = savedBedrock; }
-
-            const savedPort = localStorage.getItem('serverBedrockPort');
-            if (savedPort) { document.getElementById('bedrockPortInput').value = savedPort; }
-
-            // Lädt die bestehenden Regeln strukturiert zurück ins Textfeld
             const savedRules = localStorage.getItem('serverRulesText');
             if (savedRules) {
-                const rulesArray = JSON.parse(savedRules);
-                document.getElementById('rulesTextArea').value = rulesArray.join('\n');
+                document.getElementById('rulesTextArea').value = JSON.parse(savedRules).join('\n');
             } else {
-                // Standard-Anzeige im Admin Panel falls leer
                 document.getElementById('rulesTextArea').value = "1.1 | Hacked Clients & Exploits: Jede Nutzung von Cheat-Clients führt zum permanenten Bann.\n1.2 | Bug Abuse: Das Ausnutzen von Fehlern ist streng verboten.\n1.3 | Echtgeldhandel: Das Verkaufen von Gegenständen gegen echtes Geld ist untersagt.";
             }
         });
@@ -110,6 +101,7 @@
             if(document.getElementById('adminPass').value === "Nick1910gohl") { 
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('admin-dashboard').classList.remove('hidden');
+                document.body.style.display = "flex";
             } else {
                 document.getElementById('login-error').innerText = "Falsches Passwort! Zugriff verweigert.";
             }
@@ -117,27 +109,26 @@
 
         function saveAnnouncement() {
             localStorage.setItem('globalAnnouncement', document.getElementById('bannerTextInput').value);
-            showSuccess('save-success');
+            showSuccess();
         }
 
         function saveIPSettings() {
             localStorage.setItem('serverJavaIP', document.getElementById('javaIpInput').value);
             localStorage.setItem('serverBedrockIP', document.getElementById('bedrockIpInput').value);
             localStorage.setItem('serverBedrockPort', document.getElementById('bedrockPortInput').value);
-            showSuccess('ip-save-success');
+            showSuccess();
         }
 
-        // Neue Funktion zum Speichern der Textzeilen als Liste
         function saveRulesSettings() {
             const lines = document.getElementById('rulesTextArea').value.split('\n');
             localStorage.setItem('serverRulesText', JSON.stringify(lines));
-            showSuccess('rules-save-success');
+            showSuccess();
         }
 
-        function showSuccess(elementId) {
-            const msg = document.getElementById(elementId);
+        function showSuccess() {
+            const msg = document.getElementById('save-success');
             msg.style.display = 'block';
-            setTimeout(() => { msg.style.display = 'none'; }, 3000);
+            setTimeout(() => { msg.style.display = 'none'; }, 2500);
         }
 
         function switchTab(tabId) {
