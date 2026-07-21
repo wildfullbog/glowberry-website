@@ -25,6 +25,7 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="#economy"><i class="fas fa-gavel"></i> Wirtschaft</a></li>
+            <li><a href="#leaderboards"><i class="fas fa-trophy"></i> Bestenlisten</a></li>
             <li><a href="#features"><i class="fas fa-gamepad"></i> Gameplay</a></li>
             <li><a href="#regeln"><i class="fas fa-balance-scale"></i> Richtlinien</a></li>
             <li><a href="admin.html" class="admin-btn"><i class="fas fa-lock"></i> Admin Panel</a></li>
@@ -84,8 +85,54 @@
         </div>
     </section>
 
+    <!-- 🏆 BRANDNEUE LEADERBOARDS SEKTION (Dynamisch verwaltbar) -->
+    <section id="leaderboards" class="section">
+        <h2 class="section-title">🏆 Server Bestenlisten</h2>
+        <div class="grid-2">
+            <!-- Tabelle 1: Reichste Spieler -->
+            <div class="glow-card" style="padding: 30px; border-radius: 8px;">
+                <h3 style="margin-bottom: 20px; color: var(--primary-color);"><i class="fas fa-money-bill-wave"></i> Die Reichsten (Baltop)</h3>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Platz</th>
+                            <th>Spielername</th>
+                            <th>Kontostand</th>
+                        </tr>
+                    </thead>
+                    <tbody id="baltop-list">
+                        <!-- Standard-Einträge -->
+                        <tr><td>🥇 1</td><td>GamerX_2026</td><td>$1,540,000</td></tr>
+                        <tr><td>🥈 2</td><td>MinecraftPro</td><td>$980,000</td></tr>
+                        <tr><td>🥉 3</td><td>BerryFan</td><td>$450,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tabelle 2: Meiste Kills -->
+            <div class="glow-card" style="padding: 30px; border-radius: 8px;">
+                <h3 style="margin-bottom: 20px; color: var(--primary-color);"><i class="fas fa-skull-crossbones"></i> Top PvP-Kills</h3>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Platz</th>
+                            <th>Spielername</th>
+                            <th>Kills</th>
+                        </tr>
+                    </thead>
+                    <tbody id="killtop-list">
+                        <!-- Standard-Einträge -->
+                        <tr><td>🥇 1</td><td>PvPMaster</td><td>342 Kills</td></tr>
+                        <tr><td>🥈 2</td><td>GamerX_2026</td><td>219 Kills</td></tr>
+                        <tr><td>🥉 3</td><td>ShadowBlade</td><td>105 Kills</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
     <!-- Gameplay Features -->
-    <section id="features" class="section">
+    <section id="features" class="section bg-dark-eval">
         <h2 class="section-title">⚔️ Gameplay Features</h2>
         <div class="grid-4">
             <div class="feature-card glow-card">
@@ -112,7 +159,7 @@
     </section>
 
     <!-- Richtlinien -->
-    <section id="regeln" class="section bg-dark-eval">
+    <section id="regeln" class="section">
         <h2 class="section-title">📜 Verbotenes Verhalten (Prohibited Conduct)</h2>
         <div class="law-list" id="liveRulesContainer">
             <div class="law-item">
@@ -130,6 +177,16 @@
         </div>
     </section>
 
+    <!-- Discord Sektion (DEIN ECHTER LINK FEST VERKNÜPFT) -->
+    <section id="discord" class="section bg-dark-eval" style="text-align: center;">
+        <div class="discord-widget glow-card" style="max-width: 600px; margin: 0 auto; padding: 50px;">
+            <i class="fab fa-discord fa-5x" style="color: #5865F2; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(88,101,242,0.4));"></i>
+            <h2>Tritt unserem Discord bei</h2>
+            <p style="margin: 15px 0 30px; color: var(--text-muted); font-size: 1.1rem;">Quatsche mit Freunden, nimm an Server-Events teil, erstelle Support-Tickets und bleib immer up-to-date!</p>
+            <a href="https://discord.gg" target="_blank" class="discord-btn" style="font-size: 1.2rem; padding: 15px 40px;">Jetzt Server betreten</a>
+        </div>
+    </section>
+
     <footer>
         <p>&copy; 2026 GlowBerrySMP. Wir stehen in keinerlei Verbindung mit Mojang AB. | <a href="#">Datenschutz</a></p>
     </footer>
@@ -140,63 +197,3 @@
         let currentBedrockPort = "19132";
 
         window.addEventListener('DOMContentLoaded', () => {
-            const savedBanner = localStorage.getItem('globalAnnouncement');
-            if (savedBanner) { document.getElementById('announcementText').innerHTML = savedBanner; }
-
-            const savedJavaIP = localStorage.getItem('serverJavaIP');
-            if (savedJavaIP) { currentJavaIP = savedJavaIP; }
-            document.getElementById('display-ip-java').innerHTML = `<i class="fas fa-desktop"></i> ${currentJavaIP}`;
-
-            const savedBedrockIP = localStorage.getItem('serverBedrockIP');
-            const savedBedrockPort = localStorage.getItem('serverBedrockPort');
-            if (savedBedrockPort) { currentBedrockPort = savedBedrockPort; }
-            if (savedBedrockIP) {
-                currentBedrockIP = savedBedrockIP + ":" + currentBedrockPort;
-            } else {
-                currentBedrockIP = "://minefort.com:" + currentBedrockPort;
-            }
-            document.getElementById('display-ip-bedrock').innerHTML = `<i class="fas fa-mobile-alt"></i> ${currentBedrockIP}`;
-
-            const savedRules = localStorage.getItem('serverRulesText');
-            if (savedRules) { renderRules(JSON.parse(savedRules)); }
-        });
-
-        function renderRules(rulesArray) {
-            const container = document.getElementById('liveRulesContainer');
-            container.innerHTML = "";
-            rulesArray.forEach((rule, index) => {
-                if(rule.trim() !== "") {
-                    let num = `1.${index + 1}`;
-                    let text = rule;
-                    if(rule.includes('|')) {
-                        const parts = rule.split('|');
-                        num = parts[0].trim();
-                        text = parts[1].trim();
-                    }
-                    container.innerHTML += `
-                        <div class="law-item">
-                            <div class="law-num">${num}</div>
-                            <div class="law-text">${text}</div>
-                        </div>`;
-                }
-            });
-        }
-
-        function copyIP(type) {
-            let textToCopy = type === 'java' ? currentJavaIP : currentBedrockIP;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const eventTarget = event.currentTarget;
-                const badge = eventTarget.querySelector('.copy-badge');
-                badge.innerHTML = '<i class="fas fa-check"></i> Kopiert!';
-                badge.style.background = '#28a745';
-                setTimeout(() => {
-                    badge.innerHTML = '<i class="fas fa-copy"></i> Kopieren';
-                    badge.style.background = 'var(--primary-color)';
-                }, 2000);
-            });
-        }
-
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
-    </script>
-</body>
-</html>
