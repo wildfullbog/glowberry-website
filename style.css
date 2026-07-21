@@ -184,3 +184,33 @@ Damit das neue, integrierte Admin-Fenster perfekt dargestellt wird, kopiere bitt
 
 .admin-menu-li { padding: 15px; border-radius: 4px; cursor: pointer; margin-bottom: 8px; color: var(--text-muted); transition: 0.2s; }
 .admin-menu-li:hover, .admin-menu-li.active { background: rgba(255, 0, 51, 0.08); color: white; border-left: 4px solid var(--primary-color); }
+
+---
+
+### 🎨 CSS-Ergänzung für die Tabellen
+Füge diese Zeilen für die schicken Tabellenzeilen einfach **ganz unten am Ende deiner `style.css`** auf GitHub an:
+
+```css
+/* --- LEADERBOARD DESIGN --- */
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    text-align: left;
+}
+.leaderboard-table th {
+    padding: 12px;
+    color: var(--text-muted);
+    border-bottom: 2px solid rgba(255, 0, 51, 0.2);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+.leaderboard-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-size: 1rem;
+    font-weight: 500;
+}
+.leaderboard-table tr:hover {
+    background: rgba(255, 0, 51, 0.03);
+}
