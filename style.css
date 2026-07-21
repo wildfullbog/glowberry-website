@@ -1,0 +1,147 @@
+/* --- DONUT-STYLE RED & BLACK GAMING SCHEME --- */
+:root {
+    --bg-color: #050405;
+    --card-color: #110d0e;
+    --primary-color: #ff0033; /* Reines, kraftvolles Gaming-Rot */
+    --primary-glow: rgba(255, 0, 51, 0.6);
+    --text-color: #ffffff;
+    --text-muted: #aaa4a6;
+}
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+
+/* DonutSMP Top Announcement Banner */
+.top-announcement {
+    background: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 2px 10px var(--primary-glow);
+    letter-spacing: 0.5px;
+}
+
+/* Animierter Partikel-Hintergrund */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+    background: radial-gradient(circle at 50% 50%, #170104 0%, var(--bg-color) 85%);
+}
+.bg-animation::before {
+    content: ''; position: absolute; width: 200%; height: 200%;
+    background-image: radial-gradient(rgba(255, 0, 51, 0.1) 1.5px, transparent 0);
+    background-size: 50px 50px; animation: moveBg 40s linear infinite;
+}
+@keyframes moveBg { 0% { transform: translate(0,0); } 100% { transform: translate(-50px, -50px); } }
+
+/* Rote Glow & Titel-Effekte */
+.glow-text { text-shadow: 0 0 30px var(--primary-glow); font-size: 4.5rem; font-weight: 900; letter-spacing: 3px; }
+.glow-card {
+    background: var(--card-color); border: 1px solid rgba(255, 0, 51, 0.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.7); transition: all 0.3s ease;
+}
+.glow-card:hover { border-color: var(--primary-color); box-shadow: 0 0 25px var(--primary-glow); transform: translateY(-5px); }
+
+/* Navigation */
+.navbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 8%; background: rgba(5, 4, 5, 0.94);
+    border-bottom: 2px solid var(--primary-color); position: sticky; top: 0; z-index: 100;
+}
+.logo-img { height: 50px; width: auto; filter: drop-shadow(0 0 8px var(--primary-glow)); }
+.nav-links { display: flex; list-style: none; align-items: center; gap: 10px; }
+.nav-links li a { color: var(--text-color); text-decoration: none; padding: 10px 15px; font-weight: 600; transition: 0.3s; font-size: 0.95rem; }
+.nav-links li a:hover, .nav-links li a.active { color: var(--primary-color); }
+.admin-btn { background: var(--primary-color); border-radius: 4px; box-shadow: 0 0 12px var(--primary-glow); }
+.menu-toggle { display: none; font-size: 24px; cursor: pointer; }
+
+/* Hero-Bereich */
+.hero { height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+.subtitle { color: var(--primary-color); font-weight: 800; font-size: 1.2rem; margin: 10px 0; letter-spacing: 2px; }
+.desc { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; max-width: 700px; }
+
+/* IP Box Layout */
+.ip-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+.ip-box {
+    background: #150f10; padding: 15px 30px; border-radius: 6px;
+    display: inline-flex; align-items: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+}
+.ip-box:hover { border-color: var(--primary-color); background: #1f1618; }
+.version-label { background: #440a0d; color: #ff2a3b; padding: 3px 8px; border-radius: 3px; font-size: 0.75rem; font-weight: bold; margin-right: 12px; }
+.version-label.mobile-label { background: #0a2944; color: #2a94ff; }
+.copy-badge { background: var(--primary-color); padding: 4px 12px; border-radius: 4px; margin-left: 15px; font-size: 0.8rem; font-weight: bold; }
+.server-status-badge { margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+.status-dot.online { width: 10px; height: 10px; background: #28a745; border-radius: 50%; box-shadow: 0 0 8px #28a745; }
+
+/* Grids & Sektionen */
+.section { padding: 80px 8%; }
+.bg-dark-eval { background: rgba(17, 13, 14, 0.6); }
+.section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 50px; text-transform: uppercase; letter-spacing: 1px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
+
+/* Wirtschaft & Features */
+.eco-card, .feature-card { padding: 40px 30px; border-radius: 8px; text-align: center; }
+.eco-icon { font-size: 3rem; color: var(--primary-color); margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--primary-glow)); }
+.icon-wrap { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px; }
+h3 { font-size: 1.4rem; margin-bottom: 12px; font-weight: 700; }
+p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+/* Donut-Style Store Items */
+.store-item { padding: 40px 30px; border-radius: 8px; text-align: center; position: relative; }
+.store-icon { font-size: 3.5rem; color: var(--primary-color); margin-bottom: 20px; }
+.store-badge { position: absolute; top: 15px; right: 15px; background: gold; color: #000; font-size: 0.75rem; font-weight: 900; padding: 3px 8px; border-radius: 3px; text-transform: uppercase; }
+.btn-store { width: 100%; margin-top: 25px; background: transparent; border: 2px solid var(--primary-color); box-shadow: none; }
+.btn-store:hover { background: var(--primary-color); box-shadow: 0 0 15px var(--primary-glow); }
+
+/* Richtlinien-Liste */
+.law-list { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+.law-item { display: flex; align-items: flex-start; background: var(--card-color); border-top: 3px solid var(--primary-color); padding: 25px; border-radius: 4px; }
+.law-num { font-size: 1.5rem; font-weight: 900; color: var(--primary-color); width: 60px; min-width: 60px; }
+.law-text { font-size: 1rem; color: #ece9ea; line-height: 1.5; }
+
+/* Buttons & Footer */
+.btn { background: var(--primary-color); border: none; color: white; padding: 12px 28px; font-weight: bold; border-radius: 4px; cursor: pointer; text-decoration: none; box-shadow: 0 4px 14px var(--primary-glow); transition: 0.2s; }
+.btn:hover { filter: brightness(1.2); }
+footer { text-align: center; padding: 40px; border-top: 1px solid #1a1314; color: var(--text-muted); font-size: 0.85rem; }
+footer a { color: var(--primary-color); text-decoration: none; }
+
+/* Admin Panel */
+.admin-body { display: flex; background: #040304; }
+.hidden { display: none !important; }
+.login-wrapper { position: fixed; top:0; left:0; width:100vw; height:100vh; background:#050405; display:flex; align-items:center; justify-content:center; z-index:1000; }
+.login-box { padding: 40px; border-radius: 6px; width:100%; max-width:400px; text-align:center; }
+.input-group { text-align: left; margin: 20px 0; }
+.input-group label { display: block; margin-bottom: 8px; color: var(--text-muted); }
+.admin-input { width: 100%; padding: 12px; background: #150f10; border: 1px solid rgba(255,255,255,0.08); color: white; border-radius: 4px; margin-bottom: 15px; }
+.admin-input:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 8px var(--primary-glow); }
+.error-text { color: var(--primary-color); margin-top: 15px; font-weight: bold; }
+.admin-container { display: flex; width: 100%; min-height: 100vh; }
+.admin-sidebar { width: 260px; background: #0e0a0b; padding: 30px 20px; border-right: 1px solid #191213; display: flex; flex-direction: column; }
+.sidebar-title { font-size: 20px; font-weight: bold; margin-bottom: 40px; text-align: center; }
+.sidebar-title span { color: var(--primary-color); }
+.sidebar-menu { list-style: none; flex-grow: 1; }
+.sidebar-menu li { padding: 15px; border-radius: 4px; cursor: pointer; margin-bottom: 8px; color: var(--text-muted); transition: 0.2s; }
+.sidebar-menu li:hover, .sidebar-menu li.active { background: rgba(255, 0, 51, 0.08); color: white; border-left: 4px solid var(--primary-color); }
+.admin-content { flex-grow: 1; padding: 50px; background: #050405; }
+.form-container { padding: 30px; border-radius: 6px; max-width: 600px; }
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .menu-toggle { display: block; }
+    .nav-links {
+        display: none; position: absolute; top: 70px; left: 0; width: 100%;
+        background: #050405; flex-direction: column; text-align: center; padding: 20px 0;
+        border-bottom: 2px solid var(--primary-color);
+    }
+    .nav-links.active { display: flex; }
+    .glow-text { font-size: 2.8rem; }
+    .admin-container { flex-direction: column; }
+    .admin-sidebar { width: 100%; min-height: auto; }
+}
