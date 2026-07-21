@@ -145,3 +145,39 @@ footer a { color: var(--primary-color); text-decoration: none; }
     .admin-container { flex-direction: column; }
     .admin-sidebar { width: 100%; min-height: auto; }
 }
+
+
+---
+
+### 🎨 Wichtig: CSS-Ergänzung am Ende der `style.css` anfügen
+Damit das neue, integrierte Admin-Fenster perfekt dargestellt wird, kopiere bitte diese Zeilen und füge sie **ganz unten am Ende deiner bestehenden `style.css`** hinzu:
+
+```css
+/* --- LIVE ADMIN OVERLAY SYSTEM --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+    display: none; align-items: center; justify-content: center; z-index: 2000;
+}
+.modal-close {
+    position: absolute; top: 15px; right: 20px; font-size: 30px;
+    color: var(--text-muted); cursor: pointer; transition: 0.2s;
+}
+.modal-close:hover { color: var(--primary-color); }
+.modal-dashboard {
+    width: 90%; max-width: 850px; padding: 45px; border-radius: 8px; position: relative;
+}
+.admin-grid {
+    display: grid; grid-template-columns: 200px 1fr; gap: 30px; margin-top: 25px;
+}
+.admin-panel-menu {
+    display: flex; flex-direction: column; gap: 10px; border-right: 1px solid rgba(255,255,255,0.05); padding-right: 20px;
+}
+.admin-menu-btn {
+    background: #151112; border: 1px solid rgba(255,255,255,0.05); color: var(--text-muted);
+    padding: 12px; border-radius: 4px; cursor: pointer; text-align: left; font-weight: bold; transition: 0.2s;
+}
+.admin-menu-btn:hover, .admin-menu-btn.active {
+    background: var(--primary-color); color: white; border-color: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow);
+}
+.admin-panel-content h3 { font-size: 1.1rem; color: #fff; margin-bottom: 10px; }
