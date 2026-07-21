@@ -10,18 +10,6 @@
 </head>
 <body>
 
-    <!-- 🔥 GAMING LOADING SCREEN MIT INTERNET-FEHLER-WARNUNG -->
-    <div id="loading-screen">
-        <div class="loader-container">
-            <div class="glow-spinner"></div>
-            <div class="loader-text">Lade GlowBerrySMP...</div>
-            <!-- Das versteckte rote Fehler-Feld -->
-            <div id="loader-error-text" style="color: #ff0033; font-weight: bold; margin-top: 20px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; display: none; animation: pulseText 1s ease-in-out infinite;">
-                ⚠️ Internet-Verbindung zu langsam? Bitte lade die Seite neu!
-            </div>
-        </div>
-    </div>
-
     <div class="bg-animation"></div>
 
     <!-- Dynamischer Ankündigungs-Banner -->
@@ -190,6 +178,21 @@
     <!-- Discord Sektion -->
     <section id="discord" class="section bg-dark-eval" style="text-align: center;">
         <div class="discord-widget glow-card" style="max-width: 600px; margin: 0 auto; padding: 50px;">
-            <i class="fab fa-discord fa-5x" style="color: #5865F2; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(88,101,242,0.4));"></i>
+            <i class="fab fa-discord fa-4x" style="color: #5865F2; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(88,101,242,0.4));"></i>
             <h2>Tritt unserem Discord bei</h2>
             <p style="margin: 15px 0 30px; color: var(--text-muted); font-size: 1.1rem;">Quatsche mit Freunden, nimm an Server-Events teil, erstelle Support-Tickets und bleib immer up-to-date!</p>
+            <a href="https://discord.gg" target="_blank" class="discord-btn" style="font-size: 1.2rem; padding: 15px 40px;">Jetzt Server betreten</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 GlowBerrySMP. Wir stehen in keinerlei Verbindung mit Mojang AB. | <a href="#">Datenschutz</a></p>
+    </footer>
+
+    <script>
+        let currentJavaIP = "://minefort.com";
+        let currentBedrockIP = "://minefort.com:19132";
+        let currentBedrockPort = "19132";
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedBanner = localStorage.getItem('globalAnnouncement');
