@@ -42,21 +42,23 @@
                 <div class="form-container glow-card">
                     <label style="color:var(--text-muted); display:block; margin-bottom:10px;">Banner-Text:</label>
                     <input type="text" class="admin-input" id="bannerTextInput" value="🔥 <strong>UPDATE:</strong> Die brandneuen Server-Quests und Kisten sind ab sofort live!">
-                    <button class="btn" onclick="saveAnnouncement()"><i class="fas fa-save"></i> Änderungen speichern</button>
+                    <button class="btn" onclick="saveAnnouncement()"><i class="fas fa-save"></i> Änderungen保存</button>
                     <p id="save-success" style="color:#28a745; margin-top:10px; font-weight:bold; display:none;"><i class="fas fa-check-circle"></i> Banner erfolgreich aktualisiert!</p>
                 </div>
             </div>
 
-            <!-- Richtlinien -->
+            <!-- Richtlinien (HIER REPARIERTES SYSTEM) -->
             <div id="regeln-tab" class="tab-content hidden">
                 <h2>📜 Server-Richtlinien (Prohibited Conduct)</h2>
                 <div class="form-container glow-card">
-                    <textarea class="admin-input" rows="6">1.1 | Hacked Clients & Exploits...</textarea>
-                    <button class="btn">Richtlinien aktualisieren</button>
+                    <label style="color:var(--text-muted); display:block; margin-bottom:10px;">Schreibe jede Regel in eine neue Zeile (Format: Nummer | Text):</label>
+                    <textarea class="admin-input" id="rulesTextArea" rows="10" placeholder="1.1 | Hacked Clients sind verboten&#10;1.2 | Bug Abuse ist untersagt"></textarea>
+                    <button class="btn" onclick="saveRulesSettings()"><i class="fas fa-save"></i> Richtlinien speichern</button>
+                    <p id="rules-save-success" style="color:#28a745; margin-top:10px; font-weight:bold; display:none;"><i class="fas fa-check-circle"></i> Richtlinien erfolgreich für Live-Seite gespeichert!</p>
                 </div>
             </div>
 
-            <!-- System-Zustand (HIER REPARIERTES IP SYSTEM) -->
+            <!-- System-Zustand -->
             <div id="settings-tab" class="tab-content hidden">
                 <h2>⚙️ Netzwerk-IP & Server-Zustand verwalten</h2>
                 <div class="form-container glow-card">
@@ -64,26 +66,22 @@
                         <label style="color:var(--text-muted); display:block; margin-bottom:8px;">Java Server-IP:</label>
                         <input type="text" id="javaIpInput" value="://minefort.com" class="admin-input">
                     </div>
-                    
                     <div style="margin-bottom: 20px;">
                         <label style="color:var(--text-muted); display:block; margin-bottom:8px;">Bedrock Server-IP (ohne Port):</label>
                         <input type="text" id="bedrockIpInput" value="://minefort.com" class="admin-input">
                     </div>
-
                     <div style="margin-bottom: 20px;">
                         <label style="color:var(--text-muted); display:block; margin-bottom:8px;">Bedrock Port:</label>
                         <input type="text" id="bedrockPortInput" value="19132" class="admin-input">
                     </div>
-
                     <button class="btn" onclick="saveIPSettings()"><i class="fas fa-save"></i> Server-IPs speichern</button>
-                    <p id="ip-save-success" style="color:#28a745; margin-top:10px; font-weight:bold; display:none;"><i class="fas fa-check-circle"></i> IPs erfolgreich für Live-Seite gespeichert!</p>
+                    <p id="ip-save-success" style="color:#28a745; margin-top:10px; font-weight:bold; display:none;"><i class="fas fa-check-circle"></i> IPs erfolgreich gespeichert!</p>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        // Lädt gespeicherte Werte beim Öffnen des Admin Panels in die Felder
         window.addEventListener('DOMContentLoaded', () => {
             const savedBanner = localStorage.getItem('globalAnnouncement');
             if (savedBanner) { document.getElementById('bannerTextInput').value = savedBanner; }
@@ -96,6 +94,16 @@
 
             const savedPort = localStorage.getItem('serverBedrockPort');
             if (savedPort) { document.getElementById('bedrockPortInput').value = savedPort; }
+
+            // Lädt die bestehenden Regeln strukturiert zurück ins Textfeld
+            const savedRules = localStorage.getItem('serverRulesText');
+            if (savedRules) {
+                const rulesArray = JSON.parse(savedRules);
+                document.getElementById('rulesTextArea').value = rulesArray.join('\n');
+            } else {
+                // Standard-Anzeige im Admin Panel falls leer
+                document.getElementById('rulesTextArea').value = "1.1 | Hacked Clients & Exploits: Jede Nutzung von Cheat-Clients führt zum permanenten Bann.\n1.2 | Bug Abuse: Das Ausnutzen von Fehlern ist streng verboten.\n1.3 | Echtgeldhandel: Das Verkaufen von Gegenständen gegen echtes Geld ist untersagt.";
+            }
         });
 
         function checkLogin() {
@@ -108,21 +116,22 @@
         }
 
         function saveAnnouncement() {
-            const textValue = document.getElementById('bannerTextInput').value;
-            localStorage.setItem('globalAnnouncement', textValue);
+            localStorage.setItem('globalAnnouncement', document.getElementById('bannerTextInput').value);
             showSuccess('save-success');
         }
 
-        // Neue Funktion zum dauerhaften Sichern der IP-Konfigurationen
         function saveIPSettings() {
-            const javaValue = document.getElementById('javaIpInput').value;
-            const bedrockValue = document.getElementById('bedrockIpInput').value;
-            const portValue = document.getElementById('bedrockPortInput').value;
-
-            localStorage.setItem('serverJavaIP', javaValue);
-            localStorage.setItem('serverBedrockIP', bedrockValue);
-            localStorage.setItem('serverBedrockPort', portValue);
+            localStorage.setItem('serverJavaIP', document.getElementById('javaIpInput').value);
+            localStorage.setItem('serverBedrockIP', document.getElementById('bedrockIpInput').value);
+            localStorage.setItem('serverBedrockPort', document.getElementById('bedrockPortInput').value);
             showSuccess('ip-save-success');
+        }
+
+        // Neue Funktion zum Speichern der Textzeilen als Liste
+        function saveRulesSettings() {
+            const lines = document.getElementById('rulesTextArea').value.split('\n');
+            localStorage.setItem('serverRulesText', JSON.stringify(lines));
+            showSuccess('rules-save-success');
         }
 
         function showSuccess(elementId) {
