@@ -10,6 +10,14 @@
 </head>
 <body>
 
+    <!-- 🔥 DER NEUE GAMING LOADING SCREEN -->
+    <div id="loading-screen">
+        <div class="loader-container">
+            <div class="glow-spinner"></div>
+            <div class="loader-text">Lade GlowBerrySMP...</div>
+        </div>
+    </div>
+
     <div class="bg-animation"></div>
 
     <!-- Dynamischer Ankündigungs-Banner -->
@@ -85,7 +93,7 @@
         </div>
     </section>
 
-    <!-- 🏆 BRANDNEUE LEADERBOARDS SEKTION (Dynamisch verwaltbar) -->
+    <!-- Leaderboards Section -->
     <section id="leaderboards" class="section">
         <h2 class="section-title">🏆 Server Bestenlisten</h2>
         <div class="grid-2">
@@ -101,7 +109,6 @@
                         </tr>
                     </thead>
                     <tbody id="baltop-list">
-                        <!-- Standard-Einträge -->
                         <tr><td>🥇 1</td><td>GamerX_2026</td><td>$1,540,000</td></tr>
                         <tr><td>🥈 2</td><td>MinecraftPro</td><td>$980,000</td></tr>
                         <tr><td>🥉 3</td><td>BerryFan</td><td>$450,000</td></tr>
@@ -121,7 +128,6 @@
                         </tr>
                     </thead>
                     <tbody id="killtop-list">
-                        <!-- Standard-Einträge -->
                         <tr><td>🥇 1</td><td>PvPMaster</td><td>342 Kills</td></tr>
                         <tr><td>🥈 2</td><td>GamerX_2026</td><td>219 Kills</td></tr>
                         <tr><td>🥉 3</td><td>ShadowBlade</td><td>105 Kills</td></tr>
@@ -177,13 +183,13 @@
         </div>
     </section>
 
-    <!-- Discord Sektion (DEIN ECHTER LINK FEST VERKNÜPFT) -->
+    <!-- Discord Sektion -->
     <section id="discord" class="section bg-dark-eval" style="text-align: center;">
         <div class="discord-widget glow-card" style="max-width: 600px; margin: 0 auto; padding: 50px;">
             <i class="fab fa-discord fa-5x" style="color: #5865F2; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(88,101,242,0.4));"></i>
             <h2>Tritt unserem Discord bei</h2>
             <p style="margin: 15px 0 30px; color: var(--text-muted); font-size: 1.1rem;">Quatsche mit Freunden, nimm an Server-Events teil, erstelle Support-Tickets und bleib immer up-to-date!</p>
-            <a href="https://discord.gg/YRvDmmNPUN" target="_blank" class="discord-btn" style="font-size: 1.2rem; padding: 15px 40px;">Server Beitreten</a>
+            <a href="https://discord.gg" target="_blank" class="discord-btn" style="font-size: 1.2rem; padding: 15px 40px;">Jetzt Server betreten</a>
         </div>
     </section>
 
@@ -194,6 +200,3 @@
     <script>
         let currentJavaIP = "://minefort.com";
         let currentBedrockIP = "://minefort.com:19132";
-        let currentBedrockPort = "19132";
-
-        window.addEventListener('DOMContentLoaded', () => {
